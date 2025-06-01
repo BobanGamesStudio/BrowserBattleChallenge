@@ -14,4 +14,6 @@ services:
         fromDatabase:
           name: bbc_database
           property: connectionString
+      - key: PYTHONPATH
+        value: .
     autoDeploy: true
