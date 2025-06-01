@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: your-backend
+    name: BrowserBattleChallenge
     env: python
     plan: free
     buildCommand: |
