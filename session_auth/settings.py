@@ -109,22 +109,28 @@ WSGI_APPLICATION = 'session_auth.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': dj_database_url.parse(DATABASE_URL)
-    if DATABASE_URL
-    else {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'session_auth',
-        'USER': 'postgres',
-        'PASSWORD': '13091997',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 if DATABASE_URL:
     DATABASES['default'] = dj_database_url.parse(DATABASE_URL)
+
+if DATABASE_URL:
+    DATABASES = {
+        "default": dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
+    }
+else:
+    # Konfiguracja lokalna (np. do developmentu)
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": "your_db_name",
+            "USER": "your_db_user",
+            "PASSWORD": "your_db_password",
+            "HOST": "localhost",
+            "PORT": "5432",
+        }
+    }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
