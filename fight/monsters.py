@@ -44,8 +44,8 @@ MONSTERS = {
             'image_path': 'Images/Enemies/0101ButtercupBunny.png',
 
             'rewards': {'gold'        : {'min' : 1, 'max' : 5},
-                        'random_item' : 640,
-                        'meat'        : 350
+                        'random_item' : 40,
+                        'meat'        : 40
                        },
             'exp': {'min' : 1, 'max' : 1}
         },
