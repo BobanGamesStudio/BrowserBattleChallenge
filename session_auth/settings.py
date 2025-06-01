@@ -181,3 +181,16 @@ CELERY_TIMEZONE = 'UTC'
 
 # WhiteNoise configuration
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# CORS — by React mógł gadać z backendem
+CORS_ALLOWED_ORIGINS = [
+    "https://browserbattlechallenge.onrender.com",
+]
+
+# CSRF — by Django akceptował ciasteczka z frontendu
+CSRF_TRUSTED_ORIGINS = [
+    "https://browserbattlechallenge.onrender.com",
+]
+
+# Jeśli używasz cookies/sesji
+CORS_ALLOW_CREDENTIALS = True
