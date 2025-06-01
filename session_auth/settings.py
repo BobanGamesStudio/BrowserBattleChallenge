@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -166,7 +167,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'build/static')
+    os.path.join(BASE_DIR, 'build', 'static'),
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
@@ -199,6 +200,12 @@ CELERY_TIMEZONE = 'UTC'
 # WhiteNoise configuration
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# Konfiguracja WhiteNoise
+WHITENOISE_USE_FINDERS = True
+WHITENOISE_AUTOREFRESH = True
+WHITENOISE_STATIC_PREFIX = '/static/'
+WHITENOISE_INDEX_FILE = True
+WHITENOISE_SKIP_COMPRESS_EXTENSIONS = ['js', 'css']
 
 
 # Jeśli używasz cookies/sesji
