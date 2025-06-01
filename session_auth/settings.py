@@ -28,7 +28,8 @@ SECRET_KEY = 'django-insecure-1*ingqfrogn*u&&%=df6zu5)4imw-b#bm!t*vg0g_ze_-k*_0s
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.onrender.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.onrender.com', 'browserbattlechallenge.onrender.com']
+
 
 # Application definition
 
@@ -72,7 +73,17 @@ MIDDLEWARE = [
 ]
 
 
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS — by React mógł gadać z backendem
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ALLOWED_ORIGINS = [
+    "https://browserbattlechallenge.onrender.com",
+]
+
+# CSRF — by Django akceptował ciasteczka z frontendu
+CSRF_TRUSTED_ORIGINS = [
+    "https://browserbattlechallenge.onrender.com",
+]
+
 
 ROOT_URLCONF = 'session_auth.urls'
 
@@ -99,12 +110,15 @@ WSGI_APPLICATION = 'session_auth.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'default': dj_database_url.parse(DATABASE_URL)
+    if DATABASE_URL
+    else {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'session_auth',
         'USER': 'postgres',
         'PASSWORD': '13091997',
-        'HOST': 'localhost'
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -172,8 +186,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Celery Configuration Options
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+CELERY_RESULT_BACKEND = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
@@ -182,15 +196,7 @@ CELERY_TIMEZONE = 'UTC'
 # WhiteNoise configuration
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# CORS — by React mógł gadać z backendem
-CORS_ALLOWED_ORIGINS = [
-    "https://browserbattlechallenge.onrender.com",
-]
 
-# CSRF — by Django akceptował ciasteczka z frontendu
-CSRF_TRUSTED_ORIGINS = [
-    "https://browserbattlechallenge.onrender.com",
-]
 
 # Jeśli używasz cookies/sesji
 CORS_ALLOW_CREDENTIALS = True
